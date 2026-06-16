@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %}Database Schema{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>🗄️ Database Schema</h1>
+  <p class="page-subtitle">
+    All data is randomly generated and fictional. Use these tables in your practice queries.
+  </p>
+</div>
+
+{% for tbl, info in schemas.items() %}
+<div class="schema-section" id="{{ tbl }}">
+  <div class="schema-section-header">
+    <h2>{{ tbl }}</h2>
+    <span class="row-count">{{ info.row_count }} rows</span>
+  </div>
+
+  <!-- Column definitions -->
+  <table class="schema-def-table">
+    <thead>
+      <tr><th>Column</th><th>Type</th><th>Not Null</th><th>Primary Key</th></tr>
+    </thead>
+    <tbody>
+      {% for col in info.columns %}
+      <tr>
+        <td><code>{{ col.name }}</code></td>
+        <td>{{ col.type }}</td>
+        <td>{{ '✓' if col.notnull else '' }}</td>
+        <td>{{ '🔑' if col.pk else '' }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Sample rows -->
+  {% if tbl in samples and samples[tbl] %}
+  <h3>Sample Data (first 5 rows)</h3>
+  <div class="table-scroll">
+    <table class="results-table">
+      <thead>
+        <tr>
+          {% for col in samples[tbl][0].keys() %}
+          <th>{{ col }}</th>
+          {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in samples[tbl] %}
+        <tr>
+          {% for val in row.values() %}
+          <td>{{ val }}</td>
+          {% endfor %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

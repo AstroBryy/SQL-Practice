@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}{{ challenge.title }}{% endblock %}
+
+{% block content %}
+<div class="challenge-layout">
+
+  <!-- Left: Schema panel -->
+  <aside class="schema-panel">
+    <h3>📋 Relevant Tables</h3>
+    {% for tbl in challenge.tables %}
+    <div class="schema-table">
+      <div class="schema-table-name" onclick="toggleTable('{{ tbl }}')">
+        ▶ {{ tbl }}
+      </div>
+      <div class="schema-table-cols" id="tbl-{{ tbl }}" style="display:none">
+        {% if tbl in sample_data and sample_data[tbl] %}
+          {% for col in sample_data[tbl][0].keys() %}
+          <div class="schema-col">{{ col }}</div>
+          {% endfor %}
+        {% endif %}
+        <a href="/schema#{{ tbl }}" class="schema-link">View sample data →</a>
+      </div>
+    </div>
+    {% endfor %}
+  </aside>
+
+  <!-- Center: Challenge + Editor -->
+  <div class="challenge-main">
+    <div class="challenge-header">
+      <div class="breadcrumb">
+        <a href="/practice/{{ challenge.difficulty }}">{{ challenge.difficulty|capitalize }}</a>
+        › {{ challenge.category }}
+      </div>
+      <span class="diff-badge diff-{{ challenge.difficulty }}">{{ challenge.difficulty }}</span>
+    </div>
+
+    {% if challenge.get('scenario') %}
+    <div class="scenario-box">
+      <strong>📋 Scenario:</strong> {{ challenge.scenario }}
+    </div>
+    {% endif %}
+
+    <h1 class="challenge-title">{{ challenge.title }}</h1>
+    <p class="challenge-desc">{{ challenge.description }}</p>
+
+    <!-- Hint section -->
+    <div class="hint-section">
+      <button class="hint-btn" onclick="toggleHint()">💡 Show Hint</button>
+      <div id="hints" style="display:none">
+        <ol class="hint-list">
+          {% for h in challenge.hints %}
+          <li>{{ h }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+    </div>
+
+    <!-- SQL Editor -->
+    <div class="editor-wrapper">
+      <textarea id="sql-editor">{{ challenge.starter_sql or '' }}</textarea>
+    </div>
+
+    <div class="editor-actions">
+      <button class="btn btn-run" onclick="runQuery()">▶ Run Query</button>
+      <button class="btn btn-check" onclick="checkAnswer()">✓ Check Answer</button>
+    </div>
+
+    <!-- Results panel -->
+    <div id="results-panel" class="results-panel" style="display:none">
+      <div id="results-header"></div>
+      <div id="error-box" class="error-box" style="display:none"></div>
+      <div id="results-table-wrap"></div>
+    </div>
+
+    <!-- Diff panel -->
+    <div id="diff-panel" class="diff-panel" style="display:none">
+      <h3>📍 What went wrong?</h3>
+      <div id="diff-explanation"></div>
+      <div class="diff-columns">
+        <div class="diff-col">
+          <h4>Your Query</h4>
+          <pre id="diff-user" class="diff-pre"></pre>
+        </div>
+        <div class="diff-col">
+          <h4>Correct Query</h4>
+          <pre id="diff-correct" class="diff-pre"></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Right: Navigation -->
+  <aside class="challenge-nav">
+    <h3>More Challenges</h3>
+    <a href="/practice/{{ challenge.difficulty }}" class="nav-back">← Back to {{ challenge.difficulty|capitalize }}</a>
+    <a href="/learn/{{ challenge.difficulty }}" class="nav-teach">📘 Teach Me This Level</a>
+  </aside>
+
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+<script>
+  initEditor('sql-editor', {{ challenge.starter_sql | tojson }});
+  const CHALLENGE_ID = {{ challenge.id | tojson }};
+</script>
+{% endblock %}

@@ -1,0 +1,429 @@
+/* ── Variables ──────────────────────────────────────────────────────────── */
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #242736;
+  --border: #2e3148;
+  --text: #e2e8f0;
+  --text-muted: #8892a4;
+  --accent: #6366f1;
+  --accent-hover: #818cf8;
+  --green: #10b981;
+  --green-bg: #052e1d;
+  --red: #f87171;
+  --red-bg: #2d1515;
+  --yellow: #fbbf24;
+  --yellow-bg: #2d2210;
+  --beginner: #10b981;
+  --intermediate: #f59e0b;
+  --advanced: #8b5cf6;
+  --analyst: #06b6d4;
+  --radius: 10px;
+  --shadow: 0 4px 20px rgba(0,0,0,0.4);
+}
+
+/* ── Reset ──────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 16px; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { color: var(--accent-hover); }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
+
+/* ── Navbar ─────────────────────────────────────────────────────────────── */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 58px;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.nav-brand { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+.nav-links { display: flex; gap: 0.25rem; }
+.nav-link {
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  transition: all 0.15s;
+}
+.nav-link:hover, .nav-link.active {
+  background: var(--surface2);
+  color: var(--text);
+}
+
+/* ── Main ───────────────────────────────────────────────────────────────── */
+.main-content { flex: 1; padding: 2rem; max-width: 1400px; margin: 0 auto; width: 100%; }
+
+/* ── Hero ───────────────────────────────────────────────────────────────── */
+.hero { text-align: center; padding: 3rem 1rem 2rem; }
+.hero-title { font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; }
+.hero-subtitle { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+/* ── Level Cards ────────────────────────────────────────────────────────── */
+.level-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+.level-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  text-align: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+  display: block;
+  color: var(--text);
+}
+.level-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); color: var(--text); }
+.level-card h2 { font-size: 1.3rem; margin: 0.5rem 0; }
+.level-card p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1rem; }
+.level-icon { font-size: 2rem; }
+.level-beginner { border-top: 3px solid var(--beginner); }
+.level-intermediate { border-top: 3px solid var(--intermediate); }
+.level-advanced { border-top: 3px solid var(--advanced); }
+.level-analyst { border-top: 3px solid var(--analyst); }
+.challenge-count {
+  display: inline-block;
+  background: var(--surface2);
+  padding: 0.2rem 0.7rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+/* ── Steps ──────────────────────────────────────────────────────────────── */
+.home-section { margin: 2.5rem 0; }
+.home-section h2 { font-size: 1.4rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); padding-bottom: 0.5rem; }
+.steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; }
+.step { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.step-num { font-size: 1.8rem; font-weight: 800; color: var(--accent); margin-bottom: 0.5rem; }
+.step h3 { margin-bottom: 0.4rem; }
+.step p { font-size: 0.9rem; color: var(--text-muted); }
+.learn-shortcuts { display: flex; flex-wrap: wrap; gap: 1rem; }
+.learn-btn {
+  padding: 0.7rem 1.2rem;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  transition: all 0.15s;
+}
+.learn-btn:hover { background: var(--surface2); border-color: var(--accent); color: var(--text); }
+
+/* ── Page Header ────────────────────────────────────────────────────────── */
+.page-header { margin-bottom: 2rem; }
+.page-header h1 { font-size: 1.8rem; margin-bottom: 0.5rem; }
+.page-subtitle { color: var(--text-muted); margin-bottom: 1rem; }
+.level-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+.tab {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+.tab:hover, .tab.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+/* ── Challenge Cards ────────────────────────────────────────────────────── */
+.challenge-category { margin-bottom: 2.5rem; }
+.category-title { font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+.challenge-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 1rem; }
+.challenge-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  display: block;
+  color: var(--text);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.challenge-card:hover { transform: translateY(-2px); box-shadow: var(--shadow); color: var(--text); }
+.challenge-card h3 { font-size: 1rem; margin: 0.5rem 0 0.4rem; }
+.challenge-card p { font-size: 0.82rem; color: var(--text-muted); }
+.challenge-card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.25rem; }
+.diff-badge {
+  font-size: 0.72rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+.diff-beginner, .diff-badge.diff-beginner { background: rgba(16,185,129,0.15); color: var(--beginner); }
+.diff-intermediate, .diff-badge.diff-intermediate { background: rgba(245,158,11,0.15); color: var(--intermediate); }
+.diff-advanced, .diff-badge.diff-advanced { background: rgba(139,92,246,0.15); color: var(--advanced); }
+.category-tag { font-size: 0.72rem; color: var(--text-muted); }
+
+/* ── Challenge Layout ───────────────────────────────────────────────────── */
+.challenge-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 180px;
+  gap: 1.5rem;
+  align-items: start;
+}
+@media (max-width: 900px) {
+  .challenge-layout { grid-template-columns: 1fr; }
+  .schema-panel, .challenge-nav { display: none; }
+}
+
+/* Schema Panel */
+.schema-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  position: sticky;
+  top: 70px;
+}
+.schema-panel h3 { font-size: 0.9rem; margin-bottom: 0.75rem; color: var(--text-muted); }
+.schema-table { margin-bottom: 0.5rem; }
+.schema-table-name { cursor: pointer; font-size: 0.85rem; padding: 0.3rem 0.5rem; border-radius: 6px; color: var(--accent); }
+.schema-table-name:hover { background: var(--surface2); }
+.schema-table-cols { padding-left: 1rem; margin-top: 0.25rem; }
+.schema-col { font-size: 0.75rem; color: var(--text-muted); padding: 0.1rem 0; font-family: monospace; }
+.schema-link { font-size: 0.75rem; color: var(--accent); display: block; margin-top: 0.4rem; }
+
+/* Challenge Main */
+.challenge-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.breadcrumb { font-size: 0.82rem; color: var(--text-muted); }
+.breadcrumb a { color: var(--text-muted); }
+.breadcrumb a:hover { color: var(--accent); }
+.challenge-title { font-size: 1.5rem; margin-bottom: 0.75rem; }
+.challenge-desc { color: var(--text-muted); margin-bottom: 1.25rem; line-height: 1.6; }
+.scenario-box {
+  background: var(--yellow-bg);
+  border: 1px solid var(--yellow);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+/* Hint */
+.hint-section { margin-bottom: 1rem; }
+.hint-btn {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--text-muted);
+  padding: 0.4rem 0.9rem;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.15s;
+}
+.hint-btn:hover { background: var(--surface2); color: var(--text); }
+.hint-list { padding-left: 1.5rem; margin-top: 0.75rem; color: var(--text-muted); font-size: 0.9rem; }
+.hint-list li { margin-bottom: 0.4rem; }
+
+/* Editor */
+.editor-wrapper {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  margin-bottom: 1rem;
+}
+.CodeMirror {
+  height: auto;
+  min-height: 120px;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+  background: var(--surface);
+}
+.CodeMirror-scroll { min-height: 120px; }
+.editor-actions { display: flex; gap: 0.75rem; margin-bottom: 1.5rem; }
+.btn {
+  padding: 0.5rem 1.25rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+.btn-run { background: var(--surface2); color: var(--text); border: 1px solid var(--border); }
+.btn-run:hover { background: var(--border); }
+.btn-check { background: var(--accent); color: white; }
+.btn-check:hover { background: var(--accent-hover); }
+.btn-secondary { background: var(--surface); border: 1px solid var(--border); color: var(--text); }
+
+/* Results */
+.results-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+.results-panel.correct { border-color: var(--green); }
+.results-panel.incorrect { border-color: var(--red); }
+#results-header { font-weight: 600; margin-bottom: 0.75rem; }
+.correct-msg { color: var(--green); }
+.error-box {
+  background: var(--red-bg);
+  border: 1px solid var(--red);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.error-box h4 { color: var(--red); margin-bottom: 0.4rem; }
+.error-box p { font-size: 0.9rem; margin-bottom: 0.3rem; }
+.error-tip { color: var(--yellow); font-size: 0.85rem; }
+.suggestions { margin-top: 0.5rem; padding-left: 1.25rem; font-size: 0.85rem; color: var(--text-muted); }
+.table-scroll { overflow-x: auto; }
+.results-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+.results-table th { background: var(--surface2); padding: 0.5rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+.results-table td { padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--border); }
+.results-table tr:last-child td { border-bottom: none; }
+.row-count-note { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.5rem; }
+
+/* Diff Panel */
+.diff-panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+.diff-panel h3 { margin-bottom: 1rem; }
+#diff-explanation { margin-bottom: 1rem; }
+.diff-columns { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.diff-col h4 { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.diff-pre {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.82rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  line-height: 1.6;
+}
+.diff-same { color: var(--text-muted); }
+.diff-removed { background: var(--red-bg); color: var(--red); text-decoration: line-through; border-radius: 3px; padding: 0 2px; }
+.diff-added { background: var(--green-bg); color: var(--green); border-radius: 3px; padding: 0 2px; }
+
+/* Challenge Nav */
+.challenge-nav {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  position: sticky;
+  top: 70px;
+}
+.challenge-nav h3 { font-size: 0.9rem; margin-bottom: 0.75rem; color: var(--text-muted); }
+.nav-back, .nav-teach {
+  display: block;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  margin-bottom: 0.5rem;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  transition: all 0.15s;
+}
+.nav-back:hover, .nav-teach:hover { background: var(--surface2); color: var(--text); }
+
+/* ── Lessons ─────────────────────────────────────────────────────────────── */
+.lessons-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 1.25rem; }
+.lesson-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: block;
+  color: var(--text);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.lesson-card:hover { transform: translateY(-3px); box-shadow: var(--shadow); color: var(--text); }
+.lesson-icon { font-size: 2rem; margin-bottom: 0.75rem; }
+.lesson-meta { display: flex; gap: 0.5rem; align-items: center; margin-bottom: 0.5rem; }
+.lesson-num { font-size: 0.75rem; color: var(--text-muted); }
+.lesson-card h3 { font-size: 1rem; margin-bottom: 0.4rem; }
+.lesson-tagline { font-size: 0.85rem; color: var(--text-muted); }
+
+/* Lesson Detail */
+.lesson-layout { max-width: 800px; margin: 0 auto; }
+.lesson-breadcrumb { margin-bottom: 1.5rem; font-size: 0.85rem; }
+.lesson-header { display: flex; gap: 1.5rem; align-items: flex-start; margin-bottom: 2rem; }
+.lesson-icon-lg { font-size: 3rem; flex-shrink: 0; }
+.lesson-header h1 { font-size: 1.8rem; margin: 0.25rem 0 0.5rem; }
+.lesson-tagline-lg { color: var(--text-muted); }
+.lesson-section { margin-bottom: 2.5rem; }
+.lesson-section h2 { font-size: 1.1rem; margin-bottom: 1rem; padding-bottom: 0.4rem; border-bottom: 1px solid var(--border); }
+.lesson-concept { font-size: 1rem; font-style: italic; color: var(--text-muted); }
+.lesson-explanation p { margin-bottom: 0.9rem; line-height: 1.7; }
+.syntax-block {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  font-family: 'Fira Code', monospace;
+  font-size: 0.88rem;
+  white-space: pre;
+  overflow-x: auto;
+  line-height: 1.6;
+}
+.annotated-example .syntax-block { margin-bottom: 1rem; }
+.annotations { display: flex; flex-direction: column; gap: 0.6rem; }
+.annotation-row { display: flex; gap: 1rem; align-items: baseline; }
+.annotation-line { font-size: 0.82rem; background: var(--surface2); padding: 0.2rem 0.5rem; border-radius: 4px; flex-shrink: 0; }
+.annotation-note { font-size: 0.85rem; color: var(--text-muted); }
+.key-points { padding-left: 1.5rem; }
+.key-points li { margin-bottom: 0.6rem; line-height: 1.5; }
+.try-it-section {}
+.try-challenge-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 1.25rem;
+  color: var(--text);
+  margin-top: 1rem;
+  transition: all 0.15s;
+}
+.try-challenge-btn:hover { background: var(--surface2); color: var(--text); }
+.try-challenge-btn strong { font-size: 1rem; }
+.try-challenge-btn span { font-size: 0.88rem; color: var(--text-muted); }
+.try-challenge-btn em { font-size: 0.85rem; color: var(--accent); font-style: normal; }
+.lesson-nav { margin-top: 2rem; display: flex; gap: 1rem; }
+
+/* ── Schema Page ─────────────────────────────────────────────────────────── */
+.schema-section { margin-bottom: 3rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+.schema-section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+.schema-section-header h2 { font-size: 1.2rem; font-family: monospace; }
+.row-count { font-size: 0.8rem; color: var(--text-muted); background: var(--surface2); padding: 0.2rem 0.6rem; border-radius: 12px; }
+.schema-def-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; margin-bottom: 1.5rem; }
+.schema-def-table th { background: var(--surface2); padding: 0.4rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+.schema-def-table td { padding: 0.35rem 0.75rem; border-bottom: 1px solid var(--border); }
+.schema-section h3 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+
+/* ── Footer ──────────────────────────────────────────────────────────────── */
+.footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border); }
+
+/* ── Error Page ──────────────────────────────────────────────────────────── */
+.error-page { text-align: center; padding: 5rem; }
+.error-page h1 { font-size: 5rem; color: var(--text-muted); }

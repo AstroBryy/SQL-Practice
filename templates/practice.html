@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Practice — {{ difficulty|capitalize if difficulty else 'All' }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>
+    {% if difficulty == 'analyst' %}📊 Random Analyst Queries
+    {% elif difficulty %}{{ difficulty|capitalize }} Challenges
+    {% else %}All Challenges
+    {% endif %}
+  </h1>
+  <div class="level-tabs">
+    <a href="/practice" class="tab {% if not difficulty %}active{% endif %}">All</a>
+    <a href="/practice/beginner" class="tab {% if difficulty == 'beginner' %}active{% endif %}">🌱 Beginner</a>
+    <a href="/practice/intermediate" class="tab {% if difficulty == 'intermediate' %}active{% endif %}">🔥 Intermediate</a>
+    <a href="/practice/advanced" class="tab {% if difficulty == 'advanced' %}active{% endif %}">⚡ Advanced</a>
+    <a href="/practice/analyst" class="tab {% if difficulty == 'analyst' %}active{% endif %}">📊 Analyst</a>
+  </div>
+</div>
+
+{% for category, items in categories.items() %}
+<div class="challenge-category">
+  <h2 class="category-title">{{ category }}</h2>
+  <div class="challenge-list">
+    {% for ch in items %}
+    <a href="/challenge/{{ ch.id }}" class="challenge-card diff-{{ ch.difficulty }}">
+      <div class="challenge-card-header">
+        <span class="diff-badge">{{ ch.difficulty }}</span>
+        <span class="category-tag">{{ ch.category }}</span>
+      </div>
+      <h3>{{ ch.title }}</h3>
+      <p>{{ ch.description[:100] }}{% if ch.description|length > 100 %}...{% endif %}</p>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

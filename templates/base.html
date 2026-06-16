@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}SQL Practice{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- CodeMirror -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/codemirror.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/theme/dracula.min.css">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="nav-brand">⚡ SQL Practice</a>
+    <div class="nav-links">
+      <a href="/practice" class="nav-link {% if request.path.startswith('/practice') or request.path.startswith('/challenge') %}active{% endif %}">Practice</a>
+      <a href="/practice/analyst" class="nav-link {% if 'analyst' in request.path %}active{% endif %}">Analyst Queries</a>
+      <a href="/learn" class="nav-link {% if request.path.startswith('/learn') or request.path.startswith('/lesson') %}active{% endif %}">Teach Me</a>
+      <a href="/schema" class="nav-link {% if request.path == '/schema' %}active{% endif %}">Schema</a>
+    </div>
+  </nav>
+
+  <main class="main-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="footer">
+    <p>All data is randomly generated and fictional. Practice safely.</p>
+  </footer>
+
+  <!-- CodeMirror JS -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.17/mode/sql/sql.min.js"></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% block title %}{{ lesson.title }}{% endblock %}
+
+{% block content %}
+<div class="lesson-layout">
+
+  <div class="lesson-body">
+    <div class="lesson-breadcrumb">
+      <a href="/learn/{{ lesson.difficulty }}">← {{ lesson.difficulty|capitalize }} Lessons</a>
+    </div>
+
+    <div class="lesson-header">
+      <span class="lesson-icon-lg">{{ lesson.icon }}</span>
+      <div>
+        <span class="diff-badge diff-{{ lesson.difficulty }}">{{ lesson.difficulty }} · Lesson {{ lesson.order }}</span>
+        <h1>{{ lesson.title }}</h1>
+        <p class="lesson-tagline-lg">{{ lesson.tagline }}</p>
+      </div>
+    </div>
+
+    <!-- Concept -->
+    <section class="lesson-section">
+      <h2>What is this?</h2>
+      <p class="lesson-concept">{{ lesson.concept }}</p>
+    </section>
+
+    <!-- Explanation -->
+    <section class="lesson-section">
+      <h2>The Explanation</h2>
+      <div class="lesson-explanation">
+        {% for para in lesson.explanation.split('\n\n') %}
+        <p>{{ para }}</p>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- Syntax Template -->
+    <section class="lesson-section">
+      <h2>Syntax Template</h2>
+      <pre class="syntax-block"><code>{{ lesson.syntax_template }}</code></pre>
+    </section>
+
+    <!-- Annotated Example -->
+    <section class="lesson-section">
+      <h2>Annotated Example</h2>
+      <div class="annotated-example">
+        <pre class="syntax-block"><code>{{ lesson.annotated_example.query }}</code></pre>
+        <div class="annotations">
+          {% for line in lesson.annotated_example.lines %}
+          <div class="annotation-row">
+            <code class="annotation-line">{{ line.line }}</code>
+            <span class="annotation-note">{{ line.note }}</span>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Points -->
+    <section class="lesson-section">
+      <h2>Key Points to Remember</h2>
+      <ul class="key-points">
+        {% for pt in lesson.key_points %}
+        <li>{{ pt }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <!-- Try It -->
+    {% if try_challenge %}
+    <section class="lesson-section try-it-section">
+      <h2>🏋️ Try It Yourself</h2>
+      <p>Now practice what you learned:</p>
+      <a href="/challenge/{{ try_challenge.id }}" class="try-challenge-btn">
+        <strong>{{ try_challenge.title }}</strong>
+        <span>{{ try_challenge.description }}</span>
+        <em>Start this challenge →</em>
+      </a>
+    </section>
+    {% endif %}
+
+    <!-- Navigation -->
+    <div class="lesson-nav">
+      <a href="/learn/{{ lesson.difficulty }}" class="btn btn-secondary">← All {{ lesson.difficulty|capitalize }} Lessons</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

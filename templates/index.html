@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block title %}SQL Practice — Home{% endblock %}
+
+{% block content %}
+<div class="hero">
+  <h1 class="hero-title">Practice SQL. Get Better. Land the Job.</h1>
+  <p class="hero-subtitle">
+    A safe sandbox with realistic fake data. Write real queries, get instant feedback,
+    and learn at your own pace — beginner to advanced.
+  </p>
+</div>
+
+<div class="level-grid">
+  <a href="/practice/beginner" class="level-card level-beginner">
+    <div class="level-icon">🌱</div>
+    <h2>Beginner</h2>
+    <p>SELECT, WHERE, ORDER BY, LIMIT, DISTINCT</p>
+    <span class="challenge-count">{{ stats.beginner }} challenges</span>
+  </a>
+
+  <a href="/practice/intermediate" class="level-card level-intermediate">
+    <div class="level-icon">🔥</div>
+    <h2>Intermediate</h2>
+    <p>JOINs, GROUP BY, HAVING, Subqueries, CASE WHEN</p>
+    <span class="challenge-count">{{ stats.intermediate }} challenges</span>
+  </a>
+
+  <a href="/practice/advanced" class="level-card level-advanced">
+    <div class="level-icon">⚡</div>
+    <h2>Advanced</h2>
+    <p>Window Functions, CTEs, Self Joins, Set Operations</p>
+    <span class="challenge-count">{{ stats.advanced }} challenges</span>
+  </a>
+
+  <a href="/practice/analyst" class="level-card level-analyst">
+    <div class="level-icon">📊</div>
+    <h2>Random Analyst</h2>
+    <p>Real-world scenarios a data analyst actually faces</p>
+    <span class="challenge-count">{{ stats.analyst }} scenarios</span>
+  </a>
+</div>
+
+<div class="home-section">
+  <h2>How it works</h2>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <h3>Pick a challenge</h3>
+      <p>Choose a skill level and category, or go random.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <h3>Write your query</h3>
+      <p>Use the SQL editor with syntax highlighting.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <h3>Get instant feedback</h3>
+      <p>See your results. If wrong, get a plain-English explanation and a visual diff.</p>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <h3>Learn the concept</h3>
+      <p>Visit Teach Me for structured lessons on every concept.</p>
+    </div>
+  </div>
+</div>
+
+<div class="home-section">
+  <h2>Start Learning</h2>
+  <div class="learn-shortcuts">
+    <a href="/learn/beginner" class="learn-btn">📘 Beginner Lessons</a>
+    <a href="/learn/intermediate" class="learn-btn">📗 Intermediate Lessons</a>
+    <a href="/learn/advanced" class="learn-btn">📕 Advanced Lessons</a>
+    <a href="/schema" class="learn-btn">🗄️ View the Database Schema</a>
+  </div>
+</div>
+{% endblock %}

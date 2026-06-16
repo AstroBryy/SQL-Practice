@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Teach Me — {{ difficulty|capitalize if difficulty else 'All Lessons' }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+  <h1>📘 Teach Me</h1>
+  <p class="page-subtitle">Structured lessons from zero to advanced. Learn the concept, see examples, then practice.</p>
+  <div class="level-tabs">
+    <a href="/learn" class="tab {% if not difficulty %}active{% endif %}">All</a>
+    <a href="/learn/beginner" class="tab {% if difficulty == 'beginner' %}active{% endif %}">🌱 Beginner</a>
+    <a href="/learn/intermediate" class="tab {% if difficulty == 'intermediate' %}active{% endif %}">🔥 Intermediate</a>
+    <a href="/learn/advanced" class="tab {% if difficulty == 'advanced' %}active{% endif %}">⚡ Advanced</a>
+  </div>
+</div>
+
+<div class="lessons-grid">
+  {% for l in lessons %}
+  <a href="/lesson/{{ l.id }}" class="lesson-card diff-{{ l.difficulty }}">
+    <div class="lesson-icon">{{ l.icon }}</div>
+    <div class="lesson-meta">
+      <span class="diff-badge diff-{{ l.difficulty }}">{{ l.difficulty }}</span>
+      <span class="lesson-num">Lesson {{ l.order }}</span>
+    </div>
+    <h3>{{ l.title }}</h3>
+    <p class="lesson-tagline">{{ l.tagline }}</p>
+  </a>
+  {% endfor %}
+</div>
+{% endblock %}
