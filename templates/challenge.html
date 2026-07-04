@@ -28,10 +28,24 @@
   <div class="challenge-main">
     <div class="challenge-header">
       <div class="breadcrumb">
-        <a href="/practice/{{ challenge.difficulty }}">{{ challenge.difficulty|capitalize }}</a>
+        <a href="/practice/{{ nav.track }}">{{ nav.track|capitalize }}</a>
         › {{ challenge.category }}
       </div>
       <span class="diff-badge diff-{{ challenge.difficulty }}">{{ challenge.difficulty }}</span>
+    </div>
+
+    <div class="challenge-pager">
+      {% if nav.prev %}
+      <a href="/challenge/{{ nav.prev.id }}" class="pager-btn" title="{{ nav.prev.title }}">← Back</a>
+      {% else %}
+      <span class="pager-btn pager-disabled">← Back</span>
+      {% endif %}
+      <span class="pager-position">{{ nav.index }} of {{ nav.total }}</span>
+      {% if nav.next %}
+      <a href="/challenge/{{ nav.next.id }}" class="pager-btn" id="next-link" title="{{ nav.next.title }}">Next →</a>
+      {% else %}
+      <span class="pager-btn pager-disabled">Next →</span>
+      {% endif %}
     </div>
 
     {% if challenge.get('scenario') %}
@@ -40,7 +54,14 @@
     </div>
     {% endif %}
 
-    <h1 class="challenge-title">{{ challenge.title }}</h1>
+    <h1 class="challenge-title">
+      {{ challenge.title }}
+      <span id="status-badge" class="status-badge status-{{ status }}">
+        {%- if status == 'completed' %}✓ Completed
+        {%- elif status == 'needs_practice' %}🔁 Needs practice
+        {%- endif -%}
+      </span>
+    </h1>
     <p class="challenge-desc">{{ challenge.description }}</p>
 
     <!-- Hint section -->
@@ -63,6 +84,9 @@
     <div class="editor-actions">
       <button class="btn btn-run" onclick="runQuery()">▶ Run Query</button>
       <button class="btn btn-check" onclick="checkAnswer()">✓ Check Answer</button>
+      <button class="btn btn-mark" id="mark-btn" onclick="togglePracticeMark()">
+        {% if status == 'needs_practice' %}✕ Unmark practice{% else %}🔁 Mark: needs practice{% endif %}
+      </button>
     </div>
 
     <!-- Results panel -->
@@ -87,6 +111,15 @@
         </div>
       </div>
     </div>
+
+    <div class="challenge-pager challenge-pager-bottom">
+      {% if nav.prev %}
+      <a href="/challenge/{{ nav.prev.id }}" class="pager-btn">← {{ nav.prev.title }}</a>
+      {% else %}<span></span>{% endif %}
+      {% if nav.next %}
+      <a href="/challenge/{{ nav.next.id }}" class="pager-btn pager-next">{{ nav.next.title }} →</a>
+      {% else %}<span></span>{% endif %}
+    </div>
   </div>
 
   <!-- Right: Navigation -->
@@ -104,5 +137,6 @@
 <script>
   initEditor('sql-editor', {{ challenge.starter_sql | tojson }});
   const CHALLENGE_ID = {{ challenge.id | tojson }};
+  const NEXT_URL = {{ (('/challenge/' + nav.next.id) if nav.next else none) | tojson }};
 </script>
 {% endblock %}

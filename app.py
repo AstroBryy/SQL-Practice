@@ -4,7 +4,7 @@ from flask import Flask, render_template, request, jsonify, session
 from database.setup import build_database, get_table_schemas, get_sample_rows
 from utils.sql_runner import run_query, compare_results
 from utils.error_parser import explain_error, explain_mismatch, build_diff_tokens
-from challenges import get_challenge, list_challenges, ALL_CHALLENGES
+from challenges import get_challenge, list_challenges, get_neighbors, ALL_CHALLENGES
 from lessons import get_lesson, list_lessons
 
 app = Flask(__name__)
@@ -47,7 +47,9 @@ def practice(difficulty=None):
         cat = c["category"]
         categories.setdefault(cat, []).append(c)
     return render_template("practice.html", challenges=challenges, categories=categories,
-                           difficulty=difficulty)
+                           difficulty=difficulty,
+                           completed=set(session.get("completed", [])),
+                           needs_practice=set(session.get("needs_practice", [])))
 
 
 @app.route("/challenge/<challenge_id>")
@@ -58,7 +60,15 @@ def challenge(challenge_id):
     sample_data = {}
     for tbl in ch.get("tables", []):
         sample_data[tbl] = get_sample_rows(tbl, 5)
-    return render_template("challenge.html", challenge=ch, sample_data=sample_data)
+    # An explicit "needs practice" mark outranks "completed" in the display
+    if challenge_id in session.get("needs_practice", []):
+        status = "needs_practice"
+    elif challenge_id in session.get("completed", []):
+        status = "completed"
+    else:
+        status = "unattempted"
+    return render_template("challenge.html", challenge=ch, sample_data=sample_data,
+                           nav=get_neighbors(challenge_id), status=status)
 
 
 @app.route("/learn")
@@ -139,18 +149,27 @@ def api_check(challenge_id):
     )
 
     if comparison["match"]:
-        progress = session.get("completed", [])
-        if challenge_id not in progress:
-            progress.append(challenge_id)
-            session["completed"] = progress
+        completed = session.get("completed", [])
+        if challenge_id not in completed:
+            completed.append(challenge_id)
+            session["completed"] = completed
+        needs = session.get("needs_practice", [])
+        if challenge_id in needs:
+            needs.remove(challenge_id)
+            session["needs_practice"] = needs
         return jsonify({
             "status": "correct",
             "columns": user_result.columns,
             "rows": user_result.rows,
             "row_count": len(user_result.rows),
             "message": "Correct! Well done.",
+            "challenge_status": "completed",
         })
     else:
+        needs = session.get("needs_practice", [])
+        if challenge_id not in needs and challenge_id not in session.get("completed", []):
+            needs.append(challenge_id)
+            session["needs_practice"] = needs
         mismatch_info = explain_mismatch(comparison["reason"], comparison.get("details", {}))
         diff = build_diff_tokens(user_sql, ch["solution_sql"])
         return jsonify({
@@ -161,12 +180,33 @@ def api_check(challenge_id):
             "columns": user_result.columns,
             "rows": user_result.rows,
             "row_count": len(user_result.rows),
+            "challenge_status": "needs_practice" if challenge_id in session.get("needs_practice", []) else None,
         })
 
 
 @app.route("/api/schema")
 def api_schema():
     return jsonify(get_table_schemas())
+
+
+@app.route("/api/mark/<challenge_id>", methods=["POST"])
+def api_mark(challenge_id):
+    if not get_challenge(challenge_id):
+        return jsonify({"ok": False}), 404
+    needs = session.get("needs_practice", [])
+    if challenge_id in needs:
+        needs.remove(challenge_id)
+    else:
+        needs.append(challenge_id)
+    session["needs_practice"] = needs
+
+    if challenge_id in needs:
+        status = "needs_practice"
+    elif challenge_id in session.get("completed", []):
+        status = "completed"
+    else:
+        status = "unattempted"
+    return jsonify({"ok": True, "status": status, "marked": challenge_id in needs})
 
 
 @app.route("/api/progress")

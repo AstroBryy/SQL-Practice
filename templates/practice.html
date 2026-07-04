@@ -28,7 +28,14 @@
         <span class="diff-badge">{{ ch.difficulty }}</span>
         <span class="category-tag">{{ ch.category }}</span>
       </div>
-      <h3>{{ ch.title }}</h3>
+      <h3>
+        {{ ch.title }}
+        {% if ch.id in needs_practice %}
+        <span class="status-badge status-needs_practice">🔁 Needs practice</span>
+        {% elif ch.id in completed %}
+        <span class="status-badge status-completed">✓ Completed</span>
+        {% endif %}
+      </h3>
       <p>{{ ch.description[:100] }}{% if ch.description|length > 100 %}...{% endif %}</p>
     </a>
     {% endfor %}

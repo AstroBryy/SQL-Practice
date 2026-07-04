@@ -91,7 +91,7 @@ function showLoading() {
   document.getElementById('diff-panel').style.display = 'none';
 }
 
-function showError(err) {
+function showError(err, keepResults) {
   const panel = document.getElementById('results-panel');
   const header = document.getElementById('results-header');
   const errorBox = document.getElementById('error-box');
@@ -110,7 +110,9 @@ function showError(err) {
     html += '</ul>';
   }
   errorBox.innerHTML = html;
-  document.getElementById('results-table-wrap').innerHTML = '';
+  if (!keepResults) {
+    document.getElementById('results-table-wrap').innerHTML = '';
+  }
   document.getElementById('diff-panel').style.display = 'none';
 }
 
@@ -148,18 +150,52 @@ function showResults(columns, rows, truncated, statusClass) {
 function showCorrect(columns, rows, rowCount) {
   showResults(columns, rows, false, 'correct');
   const header = document.getElementById('results-header');
-  header.innerHTML = '<span class="correct-msg">✅ Correct! Great work.</span> '
+  let html = '<span class="correct-msg">✅ Correct! Great work.</span> '
     + `<span style="color:var(--text-muted)">(${rows.length} row${rows.length !== 1 ? 's' : ''})</span>`;
+  if (typeof NEXT_URL !== 'undefined' && NEXT_URL) {
+    html += ` <a href="${NEXT_URL}" class="btn btn-check next-challenge-btn">Next challenge →</a>`;
+  }
+  header.innerHTML = html;
   document.getElementById('diff-panel').style.display = 'none';
+  updateStatusBadge('completed');
+}
+
+function updateStatusBadge(status) {
+  const badge = document.getElementById('status-badge');
+  if (!badge) return;
+  badge.className = 'status-badge status-' + status;
+  if (status === 'completed') badge.textContent = '✓ Completed';
+  else if (status === 'needs_practice') badge.textContent = '🔁 Needs practice';
+  else badge.textContent = '';
+
+  const markBtn = document.getElementById('mark-btn');
+  if (markBtn) {
+    markBtn.textContent = status === 'needs_practice' ? '✕ Unmark practice' : '🔁 Mark: needs practice';
+  }
+}
+
+async function togglePracticeMark() {
+  try {
+    const res = await fetch(`/api/mark/${CHALLENGE_ID}`, { method: 'POST' });
+    const data = await res.json();
+    if (data.ok) updateStatusBadge(data.status);
+  } catch (e) {
+    console.warn('Failed to toggle practice mark', e);
+  }
 }
 
 function showIncorrect(data) {
-  showError(data.error);
+  // Render the result table first, then overlay the error explanation so
+  // both stay visible (showResults hides the error box, showError the table).
   if (data.columns && data.rows) {
     showResults(data.columns, data.rows, false, 'incorrect');
   }
+  showError(data.error, true);
   if (data.diff) {
     renderDiff(data.diff);
+  }
+  if (data.challenge_status) {
+    updateStatusBadge(data.challenge_status);
   }
 }
 

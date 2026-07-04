@@ -7,6 +7,32 @@ ALL_CHALLENGES = {}
 for _c in BEGINNER_CHALLENGES + INTERMEDIATE_CHALLENGES + ADVANCED_CHALLENGES + ANALYST_CHALLENGES:
     ALL_CHALLENGES[_c["id"]] = _c
 
+# Ordered tracks used for prev/next navigation. Analyst challenges form their
+# own track even though they also carry a difficulty tag.
+TRACKS = {
+    "beginner": BEGINNER_CHALLENGES,
+    "intermediate": INTERMEDIATE_CHALLENGES,
+    "advanced": ADVANCED_CHALLENGES,
+    "analyst": ANALYST_CHALLENGES,
+}
+
+
+def get_neighbors(challenge_id):
+    ch = ALL_CHALLENGES.get(challenge_id)
+    if not ch:
+        return None
+    track_key = "analyst" if ch["category"] == "Random Analyst" else ch["difficulty"]
+    track = TRACKS[track_key]
+    ids = [c["id"] for c in track]
+    i = ids.index(challenge_id)
+    return {
+        "track": track_key,
+        "prev": track[i - 1] if i > 0 else None,
+        "next": track[i + 1] if i < len(track) - 1 else None,
+        "index": i + 1,
+        "total": len(track),
+    }
+
 
 def get_challenge(challenge_id):
     return ALL_CHALLENGES.get(challenge_id)
