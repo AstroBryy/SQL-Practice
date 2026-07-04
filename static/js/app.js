@@ -146,11 +146,10 @@ function showResults(columns, rows, truncated, statusClass) {
 }
 
 function showCorrect(columns, rows, rowCount) {
-  const header = document.getElementById('results-header');
-  header.innerHTML = '<span class="correct-msg">✅ Correct! Great work.</span>';
-  document.getElementById('results-panel').className = 'results-panel correct';
-  document.getElementById('error-box').style.display = 'none';
   showResults(columns, rows, false, 'correct');
+  const header = document.getElementById('results-header');
+  header.innerHTML = '<span class="correct-msg">✅ Correct! Great work.</span> '
+    + `<span style="color:var(--text-muted)">(${rows.length} row${rows.length !== 1 ? 's' : ''})</span>`;
   document.getElementById('diff-panel').style.display = 'none';
 }
 

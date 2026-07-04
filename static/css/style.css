@@ -242,6 +242,21 @@ code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
   overflow: hidden;
   margin-bottom: 1rem;
 }
+/* Fallback styling when CodeMirror CDN is unavailable */
+.editor-wrapper textarea {
+  display: block;
+  width: 100%;
+  min-height: 140px;
+  background: var(--surface);
+  color: var(--text);
+  border: none;
+  outline: none;
+  resize: vertical;
+  padding: 1rem;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
 .CodeMirror {
   height: auto;
   min-height: 120px;
