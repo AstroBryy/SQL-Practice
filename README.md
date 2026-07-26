@@ -2,7 +2,7 @@
 
 A browser-based SQL practice environment for aspiring data analysts. Write real queries against a realistic (but 100% fictional, randomly generated) business database and get instant, plain-English feedback — including a visual diff that shows exactly how your query differs from a correct one.
 
-**Live demo:** _add your Render URL here after deploying_
+**Live demo:** [sql-practice-main.onrender.com](https://sql-practice-main.onrender.com/)
 
 ![Challenge page with results](docs/screenshot-challenge.png)
 
