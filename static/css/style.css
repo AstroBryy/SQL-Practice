@@ -242,6 +242,21 @@ code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
   overflow: hidden;
   margin-bottom: 1rem;
 }
+/* Fallback styling when CodeMirror CDN is unavailable */
+.editor-wrapper textarea {
+  display: block;
+  width: 100%;
+  min-height: 140px;
+  background: var(--surface);
+  color: var(--text);
+  border: none;
+  outline: none;
+  resize: vertical;
+  padding: 1rem;
+  font-family: 'Fira Code', 'Cascadia Code', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
 .CodeMirror {
   height: auto;
   min-height: 120px;
@@ -420,6 +435,55 @@ code { font-family: 'Fira Code', 'Cascadia Code', monospace; }
 .schema-def-table th { background: var(--surface2); padding: 0.4rem 0.75rem; text-align: left; border-bottom: 1px solid var(--border); color: var(--text-muted); }
 .schema-def-table td { padding: 0.35rem 0.75rem; border-bottom: 1px solid var(--border); }
 .schema-section h3 { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+
+/* ── Progress & Pager ────────────────────────────────────────────────────── */
+.status-badge {
+  display: inline-block;
+  font-size: 0.7rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 12px;
+  font-weight: 600;
+  vertical-align: middle;
+  margin-left: 0.5rem;
+}
+.status-completed { background: rgba(16,185,129,0.15); color: var(--green); }
+.status-needs_practice { background: rgba(245,158,11,0.18); color: var(--intermediate); }
+.status-unattempted { display: none; }
+
+.challenge-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+.challenge-pager-bottom { margin-top: 0.5rem; border-top: 1px solid var(--border); padding-top: 1.25rem; }
+.pager-btn {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  transition: all 0.15s;
+  max-width: 45%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.pager-btn:hover { background: var(--surface2); color: var(--text); border-color: var(--accent); }
+.pager-disabled { opacity: 0.35; pointer-events: none; }
+.pager-position { font-size: 0.8rem; color: var(--text-muted); }
+.pager-next { margin-left: auto; }
+
+.btn-mark { background: none; border: 1px solid var(--border); color: var(--text-muted); }
+.btn-mark:hover { border-color: var(--intermediate); color: var(--intermediate); }
+.next-challenge-btn {
+  margin-left: 0.75rem;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.85rem;
+  color: white !important;
+  display: inline-block;
+}
 
 /* ── Footer ──────────────────────────────────────────────────────────────── */
 .footer { text-align: center; padding: 1.5rem; font-size: 0.8rem; color: var(--text-muted); border-top: 1px solid var(--border); }
